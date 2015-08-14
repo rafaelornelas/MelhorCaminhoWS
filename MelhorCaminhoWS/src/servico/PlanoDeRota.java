@@ -27,6 +27,19 @@ import modelo.RotaDirecoes;
 import modelo.Caminho;
 import util.*;
 
+/**
+ * @author rornelas
+ * Classe que implementa os metodos que foram passados na chamada da URL de nosso webservice
+ *cria os nos, Mapas e as persistencias no noe4J
+ */
+/**
+ * @author rornelas
+ *
+ */
+/**
+ * @author rornelas
+ *
+ */
 public class PlanoDeRota {
 	private static String URI = "http://localhost:7474/db/data/";
 	private static String NOME = "name";
@@ -38,6 +51,10 @@ public class PlanoDeRota {
 		api = new RestAPIFacade(URI);
 	}
 
+	/**
+	 * @param mapa
+	 * Metodo responsavel por persistir na base o mapa informado na chamado do webservice
+	 */
 	public void gravar(Mapa mapa) {
 		for (String nome : criarNo(mapa)) {
 			persisteNo(nome);
@@ -48,6 +65,15 @@ public class PlanoDeRota {
 		}
 	}
 	
+	/**
+	 * @param origem
+	 * @param destino
+	 * @param autonomia
+	 * @param preco
+	 * @return
+	 * 
+	 * Metodo faz a busca da rota nos nos
+	 */
 	public RotaDirecoes getDirecoes(String origem, String destino, double autonomia, double preco) {
 		RestNode origemNo = buscarNo(origem);
 		RestNode destinoNo = buscarNo(destino);
@@ -63,6 +89,11 @@ public class PlanoDeRota {
 		return direcoes;
 	}
 	
+	/**
+	 * @param mapa
+	 * @return
+	 * metodo que persiste o no 
+	 */
 	private Set<String> criarNo(Mapa mapa) {
 		Set<String> nodo = new HashSet<String>();
 		
@@ -74,6 +105,11 @@ public class PlanoDeRota {
 		return nodo;
 	}
 	
+	/**
+	 * @param name
+	 * @return
+	 * Metodo apra criar o Nodo
+	 */
 	private RestNode criaNo(String name) {
 		java.util.Map<String, Object> props = new HashMap<String, Object>();
 		props.put(NOME, name);
@@ -81,6 +117,12 @@ public class PlanoDeRota {
 		return api.createNode(props);
 	}
 	
+	/**
+	 * @param origin
+	 * @param destination
+	 * @param distance
+	 * Metodo faz o relacionamento entre o o no de oriegem e de destino
+	 */
 	private void gerarRelacionamentoOrigemDestino(String origin, String destination, double distance) {
 		RestNode originNode = persisteNo(origin);
 		RestNode destinationNode = persisteNo(destination);
@@ -92,6 +134,11 @@ public class PlanoDeRota {
 		r.setProperty(DISTANCIA, distance);
 	}
 	
+	/**
+	 * @param name
+	 * @return
+	 * Metodo para persistir o no
+	 */
 	private RestNode persisteNo(String name) {
 		RestNode node = buscarNo(name);
         
@@ -102,6 +149,11 @@ public class PlanoDeRota {
         return node;
 	}
 	
+	/**
+	 * @param name
+	 * @return
+	 * Metodo faz a consulta no noe4j pelo nome do nodo
+	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private RestNode buscarNo(String name){
 		
@@ -124,6 +176,14 @@ public class PlanoDeRota {
 		return null;
 	}
 	
+	/**
+	 * @param caminho
+	 * @param autonomia
+	 * @param preco
+	 * @return
+	 * 
+	 * metodo reponsavel por calcular o caminho e custos 
+	 */
 	private RotaDirecoes criaDirecoes(Caminho caminho, double autonomia, double preco) {
 		double distancia = caminho.getPeso();
 		double precoCalc = (preco * distancia) / autonomia;

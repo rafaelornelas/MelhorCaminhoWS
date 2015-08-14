@@ -5,14 +5,21 @@ import static com.jayway.restassured.RestAssured.given;
 import java.util.ArrayList;
 import java.util.List;
 
+import modelo.Mapa;
+import modelo.Rota;
+
 import org.junit.Test;
 
 import com.google.gson.Gson;
 
-import modelo.Mapa;
-import modelo.Rota;
-
+/**
+ * @author rornelas
+ *Classe para testar os metodos e o Webservice 
+ */
 public class PlanoDeRotaTeste {
+	/**
+	 * Teste de inclusao de rotas e mapas 
+	 */
 	@Test
 	public void testeIncluindoMapaRotas() {
 		List<Rota> routes = new ArrayList<Rota>();
@@ -32,13 +39,16 @@ public class PlanoDeRotaTeste {
 		expect().statusCode(201).when().post("/MelhorCaminhoWS/rota/mapa");
 	}
 
+	/**
+	 * Teste de melhor caminho
+	 */
 	@Test
 	public void testeMelhorCaminho() {
 		given().
-			param("origin", "A").
-	        param("destination", "B").
-	        param("fuelEfficiency", "8.5").
-	        param("fuelPrice", "2.5").
+			param("origem", "A").
+	        param("destino", "B").
+	        param("autonomia", "8.5").
+	        param("preco", "2.5").
 		expect().
 			statusCode(200).
 		when().

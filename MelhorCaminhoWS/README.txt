@@ -1,26 +1,28 @@
-================================================================================================================================
+===============================================================================================
 README
 Autor: Rafael Ornelas
 
 Problema: Desenvolver um sistema de entregas, visando o menor custo.
-API: Melhor Caminho -  A api desenvolvida serve para popular uma base com dados de mapas e distancias entre locais, a api recebe
-ua malha de dados no formato "A B 90" nada mais e que o ponto de origem, destino e a distancia entre os dois pontos.
+API: Melhor Caminho - A api desenvolvida serve para popular uma base com dados de mapas e di-
+stancias entre locais, a api recebe ua malha de dados no formato "A B 90" nada mais e que o 
+ponto de origem, destino e a distancia entre os dois pontos.
 
-================================================================================================================================
+===============================================================================================
 
 
-================================================================================================================================
+===============================================================================================
 Requisitos
-================================================================================================================================
+===============================================================================================
 Java 7
 Tomcat 7
 Neo4j 2.3 Community
+IDE Eclipse Luna
 
-================================================================================================================================
+===============================================================================================
 Instalacao
-================================================================================================================================
+===============================================================================================
 Java7
-Baixe a JDK http://www.oracle.com/technetwork/pt/java/javase/downloads/jdk7-downloads-1880260.html
+Baixar: http://www.oracle.com/technetwork/pt/java/javase/downloads/jdk7-downloads-1880260.html
 Instale a JDK referente de acordo com sua maquina (OSX,Linux...) 
 
 Neo4j
@@ -32,11 +34,17 @@ Tomcat 7
 Baixe a versao 7 no link : https://tomcat.apache.org/download-70.cgi
 descompate a pasta no local de preferencia
 
-*Caso se preferir a API pode ser executado no Wildfly na versao 9.0.1 basta fazer o mesmo processo, baixar e descompactar
+*Caso se preferir a API pode ser executado no Wildfly na versao 9.0.1 basta fazer o mesmo pro-
+cesso, baixar e descompactar
 
-================================================================================================================================
+Apos descampactar o Tomcat ou Wildfly voce deve criar o server
+importe o projeto
+Adcione o projeto ao server
+Apos isso Start o appserver
+
+===============================================================================================
 Rodando a API
-================================================================================================================================
+===============================================================================================
 
 Criando um mapa
 
@@ -73,3 +81,11 @@ com um retorno via JSON
             "D"
         ]
 }
+
+===============================================================================================
+TEstes
+===============================================================================================
+No pacote teste, tem uma case de teste para testar os metodos.
+
+Class: PlanoDeRotaTeste.java
+

@@ -16,7 +16,7 @@
                     $.ajax({
                         url: $(this).attr("id") === "postMessage" ? ctxPath+"/rota/mapa" : ctxPath+"/rota/mapa",
                         type: "POST",
-                        data: '{"firstName":"Michael", "lastName":"Jordan"}',
+                        data: '{"origem":"BH", "destino":"Abaete", "distancia":"120"}',
                         contentType: "application/json",
                         cache: false,
                         dataType: "json"

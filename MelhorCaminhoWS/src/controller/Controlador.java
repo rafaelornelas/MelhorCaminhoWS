@@ -1,33 +1,33 @@
 package controller;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
-import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
-
-import com.google.gson.Gson;
-
 import modelo.Mapa;
 import modelo.RotaDirecoes;
 import servico.PlanoDeRota;
 
+import com.google.gson.Gson;
+
+/**
+ * @author rornelas
+ * Classe de controle responsavel pelos metodos acessados pelo Webservice
+ *
+ */
 @Path("/rota")
 public class Controlador {
 	
+	/**
+	 * @return Metodo verifica se servico esta ativo.
+	 */
 	@GET
 	@Path("/ping")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -37,6 +37,15 @@ public class Controlador {
 		return Response.status(200).entity(output).build();
 	}
 
+	/**
+	 * @param origem
+	 * @param destino
+	 * @param autonomia
+	 * @param precoCombustivel
+	 * @return
+	 * 
+	 * Metodo Busca o menor caminho entre dois pontos retrno JSON
+	 */
 	@GET
 	@Path("/qualcaminho")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -53,52 +62,38 @@ public class Controlador {
 	}
 	
     
+    /**
+     * @param mapa
+     * @return
+     * Metodo para enviar via POSt uma String JSON para popular a base no noe4J
+     */
     @GET
 	@Path("/mapa")
-	@Produces(MediaType.APPLICATION_JSON)
-    public Response salvarMapa(@QueryParam("json") String json) {
+	@Consumes(MediaType.APPLICATION_JSON)
+    public Response salvarMapa(Mapa mapa) {
 		PlanoDeRota servico = new PlanoDeRota();
-		//servico.gravar(mapa);
-
-		Map<String,String> map = new HashMap<String,String>();
-		ObjectMapper mapper = new ObjectMapper();
-			
-		try {
-			json = "{\"name\":\"mkyong\", \"age\":\"29\"}";
-			
-			json = "{\"distance\": \"10\",\"origin\": \"A\",\"destination\": \"B\"}";		
-		
-			//convert JSON string to Map
-			map = mapper.readValue(json,new TypeReference<HashMap<String,String>>(){});
-				
-			System.out.println(map);
-			//servico.gravar(map);
-
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		/*
-    	try {
-			JSONObject jsonObj = new JSONObject(json);
-			System.out.println(jsonObj.length());
-			
-			
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-    	
+		servico.gravar(mapa);
     	return Response.status(Response.Status.CREATED).build();
 	}
 	
+	/**
+	 * @param origem
+	 * @param destino
+	 * @param autonomia
+	 * @param precoCombustivel
+	 * Metodo para fazer a validacao das entradas no Webservice
+	 */
 	private void validadorEntradas(String origem, String destino, Double autonomia, Double precoCombustivel) {
 		if ((origem == null)||(destino == null)||(autonomia == null)||(precoCombustivel == null)) {
 			throwException(400, "MOdelo deve ser preenchido: http://localhost:8080/MelhorCaminhoWS/rota/qualcaminho?origem=A&destino=D&autonomia=10&precoCombustivel=2.5");
 		}
 	}
 	
+	/**
+	 * @param codigoStatus
+	 * @param mensagem
+	 * metodo apra tratamento das excptions
+	 */
 	private void throwException(int codigoStatus, String mensagem) {
 		java.util.Map<String, Object> hash = new HashMap<String, Object>();
 		hash.put("Codigo", codigoStatus);
