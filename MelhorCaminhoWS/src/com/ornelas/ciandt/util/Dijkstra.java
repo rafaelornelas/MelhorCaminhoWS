@@ -1,4 +1,4 @@
-package servico;
+package com.ornelas.ciandt.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,6 +14,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.neo4j.graphdb.RelationshipType;
 import org.neo4j.rest.graphdb.entity.RestNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,8 +23,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import modelo.Caminho;
-import util.Tipo;
+import com.ornelas.ciandt.model.Caminho;
 
 public class Dijkstra {
 	private static String WEIGHT = "weight";
@@ -119,4 +119,8 @@ public class Dijkstra {
 		
 		return obj.toString();
 	}
+}
+
+enum Tipo implements RelationshipType {
+	LEADS_TO
 }

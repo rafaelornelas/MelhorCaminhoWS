@@ -1,9 +1,10 @@
-package controller;
+package com.ornelas.ciandt.controller;
 
 import java.util.HashMap;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -11,11 +12,10 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import modelo.Mapa;
-import modelo.RotaDirecoes;
-import servico.PlanoDeRota;
-
 import com.google.gson.Gson;
+import com.ornelas.ciandt.model.Direcoes;
+import com.ornelas.ciandt.model.Mapa;
+import com.ornelas.ciandt.persistence.PlanoDeRota;
 
 /**
  * @author rornelas
@@ -49,14 +49,16 @@ public class Controlador {
 	@GET
 	@Path("/qualcaminho")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response buscaMelhorCaminho(@QueryParam("origem") String origem, 
+	public Response buscaMelhorCaminho(
+			@QueryParam("origem") String origem, 
 			@QueryParam("destino") String destino, 
 			@QueryParam("autonomia") Double autonomia, 
 			@QueryParam("precoCombustivel") Double precoCombustivel) {
+		
 		validadorEntradas(origem, destino, autonomia, precoCombustivel);
 		
 		PlanoDeRota plan = new PlanoDeRota();
-		RotaDirecoes direcoes = plan.getDirecoes(origem, destino, autonomia, precoCombustivel);
+		Direcoes direcoes = plan.getDirecoes(origem, destino, autonomia, precoCombustivel);
 
 		return Response.status(200).entity(direcoes).build();
 	}
@@ -67,7 +69,7 @@ public class Controlador {
      * @return
      * Metodo para enviar via POSt uma String JSON para popular a base no noe4J
      */
-    @GET
+    @POST
 	@Path("/mapa")
 	@Consumes(MediaType.APPLICATION_JSON)
     public Response salvarMapa(Mapa mapa) {
@@ -98,14 +100,9 @@ public class Controlador {
 		java.util.Map<String, Object> hash = new HashMap<String, Object>();
 		hash.put("Codigo", codigoStatus);
 		hash.put("Mensagem", mensagem);
-				
 		Gson gson = new Gson();
 	    String json = gson.toJson(hash);
-	    
-		Response response = Response.status(codigoStatus)
-				.entity(json)
-				.build();
-		
+		Response response = Response.status(codigoStatus).entity(json).build();
 		throw new WebApplicationException(response);
 	}
 	

@@ -1,4 +1,4 @@
-package servico;
+package com.ornelas.ciandt.persistence;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,6 +12,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
 import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.RelationshipType;
 import org.neo4j.rest.graphdb.RestAPI;
 import org.neo4j.rest.graphdb.RestAPIFacade;
 import org.neo4j.rest.graphdb.entity.RestNode;
@@ -20,30 +21,24 @@ import org.neo4j.rest.graphdb.query.RestCypherQueryEngine;
 import org.neo4j.rest.graphdb.util.QueryResult;
 
 import com.google.gson.Gson;
+import com.ornelas.ciandt.model.Caminho;
+import com.ornelas.ciandt.model.Direcoes;
+import com.ornelas.ciandt.model.Mapa;
+import com.ornelas.ciandt.model.Rota;
+import com.ornelas.ciandt.util.Dijkstra;
 
-import modelo.Mapa;
-import modelo.Rota;
-import modelo.RotaDirecoes;
-import modelo.Caminho;
-import util.*;
+/**
+ * 
+ * @author rornelas
+ * Nesta classe os metodos persisten no noe4j
+ * 
+ * 
+ */
 
-/**
- * @author rornelas
- * Classe que implementa os metodos que foram passados na chamada da URL de nosso webservice
- *cria os nos, Mapas e as persistencias no noe4J
- */
-/**
- * @author rornelas
- *
- */
-/**
- * @author rornelas
- *
- */
 public class PlanoDeRota {
-	private static String URI = "http://localhost:7474/db/data/";
+	private static String URI = "http://localhost:7474/db";
 	private static String NOME = "name";
-	private static String DISTANCIA = "distance";
+	private static String DISTANCIA = "distancia";
 	
 	private RestAPI api;
 	
@@ -52,8 +47,10 @@ public class PlanoDeRota {
 	}
 
 	/**
+	 * 
 	 * @param mapa
 	 * Metodo responsavel por persistir na base o mapa informado na chamado do webservice
+	 *
 	 */
 	public void gravar(Mapa mapa) {
 		for (String nome : criarNo(mapa)) {
@@ -66,6 +63,7 @@ public class PlanoDeRota {
 	}
 	
 	/**
+	 * 
 	 * @param origem
 	 * @param destino
 	 * @param autonomia
@@ -74,7 +72,7 @@ public class PlanoDeRota {
 	 * 
 	 * Metodo faz a busca da rota nos nos
 	 */
-	public RotaDirecoes getDirecoes(String origem, String destino, double autonomia, double preco) {
+	public Direcoes getDirecoes(String origem, String destino, double autonomia, double preco) {
 		RestNode origemNo = buscarNo(origem);
 		RestNode destinoNo = buscarNo(destino);
 		
@@ -84,15 +82,17 @@ public class PlanoDeRota {
 		
 		Dijkstra dijkstra = new Dijkstra();
 		Caminho caminho = dijkstra.findSinglePath(origemNo, destinoNo);
-		RotaDirecoes direcoes = criaDirecoes(caminho, autonomia, preco);
+		Direcoes direcoes = criaDirecoes(caminho, autonomia, preco);
 		
 		return direcoes;
 	}
 	
 	/**
+	 * 
 	 * @param mapa
 	 * @return
 	 * metodo que persiste o no 
+	 *
 	 */
 	private Set<String> criarNo(Mapa mapa) {
 		Set<String> nodo = new HashSet<String>();
@@ -106,32 +106,35 @@ public class PlanoDeRota {
 	}
 	
 	/**
+	 * 
 	 * @param name
 	 * @return
 	 * Metodo apra criar o Nodo
+	 *
 	 */
-	private RestNode criaNo(String name) {
+	private RestNode criaNo(String nome) {
 		java.util.Map<String, Object> props = new HashMap<String, Object>();
-		props.put(NOME, name);
+		props.put(NOME, nome);
 		
 		return api.createNode(props);
 	}
 	
 	/**
+	 * 
 	 * @param origin
 	 * @param destination
 	 * @param distance
 	 * Metodo faz o relacionamento entre o o no de oriegem e de destino
 	 */
-	private void gerarRelacionamentoOrigemDestino(String origin, String destination, double distance) {
-		RestNode originNode = persisteNo(origin);
-		RestNode destinationNode = persisteNo(destination);
+	private void gerarRelacionamentoOrigemDestino(String origem, String destino, double distancia) {
+		RestNode originNode = persisteNo(origem);
+		RestNode destinationNode = persisteNo(destino);
 		
 		java.util.Map<String, Object> props = new HashMap<String, Object>();
-		props.put(DISTANCIA, distance);
+		props.put(DISTANCIA, distancia);
 		
 		Relationship r = originNode.createRelationshipTo(destinationNode, Tipo.LEADS_TO);
-		r.setProperty(DISTANCIA, distance);
+		r.setProperty(DISTANCIA, distancia);
 	}
 	
 	/**
@@ -139,14 +142,14 @@ public class PlanoDeRota {
 	 * @return
 	 * Metodo para persistir o no
 	 */
-	private RestNode persisteNo(String name) {
-		RestNode node = buscarNo(name);
+	private RestNode persisteNo(String nome) {
+		RestNode no = buscarNo(nome);
         
-        if (node == null) {
-            node = criaNo(name);
+        if (no == null) {
+            no = criaNo(nome);
         }
         
-        return node;
+        return no;
 	}
 	
 	/**
@@ -155,10 +158,10 @@ public class PlanoDeRota {
 	 * Metodo faz a consulta no noe4j pelo nome do nodo
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private RestNode buscarNo(String name){
+	private RestNode buscarNo(String noome){
 		
 		try {
-			String query = String.format("MATCH (node {name: '%s'}) RETURN node", name);
+			String query = String.format("MATCH (node {nome: '%s'}) RETURN node", noome);
 			
 			QueryEngine engine = new RestCypherQueryEngine(api);
 			QueryResult<java.util.Map<String,Object>> result = engine.query(query, Collections.EMPTY_MAP);
@@ -170,7 +173,7 @@ public class PlanoDeRota {
 			}
 			
 		} catch (Exception e) {
-			throwException(500, "No nao encontrado");
+			return null;
 		}
 		
 		return null;
@@ -184,7 +187,7 @@ public class PlanoDeRota {
 	 * 
 	 * metodo reponsavel por calcular o caminho e custos 
 	 */
-	private RotaDirecoes criaDirecoes(Caminho caminho, double autonomia, double preco) {
+	private Direcoes criaDirecoes(Caminho caminho, double autonomia, double preco) {
 		double distancia = caminho.getPeso();
 		double precoCalc = (preco * distancia) / autonomia;
 		
@@ -195,7 +198,7 @@ public class PlanoDeRota {
 			direcao.add(node.getProperty(NOME).toString());
 		}
 		
-		RotaDirecoes direcoes = new RotaDirecoes(direcao, precoCalc, distancia);
+		Direcoes direcoes = new Direcoes(direcao, precoCalc, distancia);
 		
 		return direcoes;
 	}
@@ -214,4 +217,8 @@ public class PlanoDeRota {
 		
 		throw new WebApplicationException(response);
 	}
+}
+
+enum Tipo implements RelationshipType {
+	LEADS_TO
 }

@@ -1,7 +1,10 @@
-package modelo;
+package com.ornelas.ciandt.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class Mapa {
 	private String nome;
 	private List<Rota> rotas;

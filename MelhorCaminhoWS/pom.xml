@@ -13,21 +13,7 @@
 				<id>neo4j-releases</id>
 				<url>http://m2.neo4j.org/releases/</url>
 			</repository>
-        <repository>
-            <id>java.net-Public</id>
-            <name>Maven Java Net Snapshots and Releases</name>
-            <url>https://maven.java.net/content/groups/public/</url>
-            <layout>default</layout>
-        </repository>
- 
-        <repository>
-            <id>Central</id>
-            <name>Maven Repository</name>
-            <url>http://repo1.maven.org/maven2</url>
-            <layout>default</layout>
-        </repository>
 		</repositories>
-	
 
 		<dependencies>
 	        <dependency>

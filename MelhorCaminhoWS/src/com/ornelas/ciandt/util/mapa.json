@@ -1,0 +1,35 @@
+{
+        "nome": "MG",
+        "rotas": [
+            {
+                "distancia": 10,
+                "origem": "A",
+                "destino": "B"
+            },
+            {
+                "dsitancia": 15,
+                "origem": "B",
+                "destino": "D"
+            },
+            {
+                "distancia": 20,
+                "origem": "A",
+                "destino": "C"
+            },
+            {
+                "distancia": 30,
+                "origem": "C",
+                "destino": "D"
+            },
+            {
+                "distancia": 50,
+                "origem": "B",
+                "destino": "E"
+            },
+            {
+                "distancia": 30,
+                "origem": "D",
+                "destino": "E"
+            }
+        ]
+    }

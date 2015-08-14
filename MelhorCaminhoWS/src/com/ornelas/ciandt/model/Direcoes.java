@@ -1,16 +1,16 @@
-package modelo;
+package com.ornelas.ciandt.model;
 
 import java.util.List;
 
-public class RotaDirecoes {
+public class Direcoes {
 	private List<String> direcoes;
 	private double custo;
 	private double distancia;
 
-	public RotaDirecoes() {
+	public Direcoes() {
 	}
 
-	public RotaDirecoes(List<String> direcoes, double custo, double distancia) {
+	public Direcoes(List<String> direcoes, double custo, double distancia) {
 		this.direcoes = direcoes;
 		this.custo = custo;
 		this.distancia = distancia;
