@@ -1,4 +1,4 @@
-package com.ornelas.ciandt.util;
+package com.ornelas.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,7 +23,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.ornelas.ciandt.model.Caminho;
+import com.ornelas.model.Caminho;
 
 public class Dijkstra {
 	private static String WEIGHT = "weight";

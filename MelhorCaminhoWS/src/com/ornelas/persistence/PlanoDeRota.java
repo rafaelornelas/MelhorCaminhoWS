@@ -1,4 +1,4 @@
-package com.ornelas.ciandt.persistence;
+package com.ornelas.persistence;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,11 +21,11 @@ import org.neo4j.rest.graphdb.query.RestCypherQueryEngine;
 import org.neo4j.rest.graphdb.util.QueryResult;
 
 import com.google.gson.Gson;
-import com.ornelas.ciandt.model.Caminho;
-import com.ornelas.ciandt.model.Direcoes;
-import com.ornelas.ciandt.model.Mapa;
-import com.ornelas.ciandt.model.Rota;
-import com.ornelas.ciandt.util.Dijkstra;
+import com.ornelas.model.Caminho;
+import com.ornelas.model.Direcoes;
+import com.ornelas.model.Mapa;
+import com.ornelas.model.Rota;
+import com.ornelas.util.Dijkstra;
 
 /**
  * 

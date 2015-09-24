@@ -1,4 +1,4 @@
-package com.ornelas.ciandt.model;
+package com.ornelas.model;
 
 import java.util.List;
 

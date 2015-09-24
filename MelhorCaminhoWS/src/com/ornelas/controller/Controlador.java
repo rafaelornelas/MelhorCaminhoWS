@@ -1,4 +1,4 @@
-package com.ornelas.ciandt.controller;
+package com.ornelas.controller;
 
 import java.util.HashMap;
 
@@ -13,9 +13,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.google.gson.Gson;
-import com.ornelas.ciandt.model.Direcoes;
-import com.ornelas.ciandt.model.Mapa;
-import com.ornelas.ciandt.persistence.PlanoDeRota;
+import com.ornelas.model.Direcoes;
+import com.ornelas.model.Mapa;
+import com.ornelas.persistence.PlanoDeRota;
 
 /**
  * @author rornelas

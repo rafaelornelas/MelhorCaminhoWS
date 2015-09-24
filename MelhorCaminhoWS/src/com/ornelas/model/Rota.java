@@ -1,4 +1,4 @@
-package com.ornelas.ciandt.model;
+package com.ornelas.model;
 
 public class Rota {
 	private String origem;

@@ -1,4 +1,4 @@
-package com.ornelas.ciant.teste;
+package com.ornelas.teste;
 
 import static com.jayway.restassured.RestAssured.given;
 
@@ -8,8 +8,8 @@ import java.util.List;
 import org.junit.Test;
 
 import com.google.gson.Gson;
-import com.ornelas.ciandt.model.Mapa;
-import com.ornelas.ciandt.model.Rota;
+import com.ornelas.model.Mapa;
+import com.ornelas.model.Rota;
 
 /**
  * @author rornelas

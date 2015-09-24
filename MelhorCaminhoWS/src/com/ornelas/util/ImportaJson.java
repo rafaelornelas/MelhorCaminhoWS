@@ -1,4 +1,4 @@
-package com.ornelas.ciandt.util;
+package com.ornelas.util;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,8 +7,8 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ornelas.ciandt.model.Mapa;
-import com.ornelas.ciandt.persistence.PlanoDeRota;
+import com.ornelas.model.Mapa;
+import com.ornelas.persistence.PlanoDeRota;
 
 /**
  * @author rornelas
